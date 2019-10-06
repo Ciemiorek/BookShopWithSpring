@@ -28,4 +28,8 @@ public class OrderService {
         return orderRepositoryIMP.getOrder(id);
     }
 
+    public void deleteOrder(long id) {
+        orderRepositoryIMP.deleteOrder(id);
+
+    }
 }

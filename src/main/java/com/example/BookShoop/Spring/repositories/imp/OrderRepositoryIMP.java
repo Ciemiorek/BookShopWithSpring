@@ -130,4 +130,37 @@ public class OrderRepositoryIMP extends AbstractRepository {
 
         return order;
     }
+
+    public void deleteOrder(long id) {
+
+        Connection connection = openDataBase();
+        Statement statement;
+        Statement statement1Books;
+
+        try {
+            statement1Books = connection.createStatement();
+            statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery("select * from orders where order_id =" + id + ";");
+            ResultSet resultSetBooks;
+            if (resultSet.next()) {
+
+               statement1Books.execute("delete  from ordered_books where order_id =" + id + ";");
+               statement.execute("delete  from orders where order_id =" + id + ";");
+
+
+            }else {
+                throw new IllegalArgumentException("Can't find object id: " + id + " in repository");
+            }
+
+            statement1Books.close();
+            statement.close();
+            connection.close();
+
+
+        } catch (SQLException ex) {
+            System.err.println("Can't do this \n" + ex);
+        }
+
+    }
 }
